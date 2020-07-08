@@ -12,12 +12,16 @@ extern void b_http_accept_http_request(struct b_socket *_http_listener_sock, b_s
     b_socket_accept(_http_listener_sock, http_request_socket);
 }
 
-extern char *b_http_read_request(b_socket_val *http_request_socket) {
-    char *buf = malloc(1501);
-    read(*http_request_socket, buf, 1501);
+extern char *b_http_read_request(b_socket_val *http_request_socket, uint16_t read_size) {
+    char *buf = malloc(read_size);
+    b_socket_read(http_request_socket, buf, read_size);
     return buf;
 }
 
 extern void b_http_respond_to_request(b_socket_val *http_request_socket, char *response, uint response_size) {
-    send(*http_request_socket, response, response_size, 0);
+    b_socket_send(http_request_socket, response, response_size, 0);
+}
+
+extern void b_http_close_listener(b_socket_val *http_listener) {
+    b_socket_close(http_listener);
 }

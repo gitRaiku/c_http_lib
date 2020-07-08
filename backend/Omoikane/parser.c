@@ -15,7 +15,7 @@ uint8_t passed_first_line;
  * 64 =
  */
 
-struct o_http_request o_http_parse_request(char *request_buf) {
+struct o_http_request o_http_request_parse(char *request_buf) {
     struct o_http_request http_request = {};
     char *current_line;
 
@@ -31,7 +31,7 @@ struct o_http_request o_http_parse_request(char *request_buf) {
 
     while ((current_line = strsep(&request_buf, "\r")) != NULL) {
         if (passed_first_line == 0) {
-            http_request.meta = o_http_parse_metata(current_line);
+            http_request.meta = o_http_metadata_parse(current_line);
             passed_first_line = 1;
         } else {
             if (*current_line == '\n') {
@@ -48,7 +48,7 @@ struct o_http_request o_http_parse_request(char *request_buf) {
                 memcpy(http_request.body, current_line, strlen(current_line));
                 break;
             } else {
-                http_request.headers[current_header] = o_http_parse_header(current_line);
+                http_request.headers[current_header] = o_http_header_parse(current_line);
                 current_header++;
             }
         }
@@ -79,7 +79,7 @@ void o_http_request_sizes(uint16_t *header_count, uint16_t *body_length, char *h
     *header_count -= 1;
 }
 
-struct o_http_header o_http_parse_header(char *header) {
+struct o_http_header o_http_header_parse(char *header) {
     struct o_http_header current_header = {};
     uint8_t name_pos = 0, value_pos = 0;
     reached_value = 0;
@@ -103,7 +103,7 @@ struct o_http_header o_http_parse_header(char *header) {
     return current_header;
 }
 
-struct o_http_metadata o_http_parse_metata(char *metadata) {
+struct o_http_metadata o_http_metadata_parse(char *metadata) {
     struct o_http_metadata meta = {};
 
     char method[8] = {0};
@@ -125,7 +125,7 @@ struct o_http_metadata o_http_parse_metata(char *metadata) {
     return meta;
 }
 
-void o_http_free_request(struct o_http_request *request) {
+void o_http_request_free(struct o_http_request *request) {
     free(request->meta.http_version);
     free(request->meta.url);
     free(request->meta.method);
