@@ -92,7 +92,7 @@ extern char *b_http_read_request(b_socket_val *http_request_socket, uint16_t rea
  * @param response a cstring containing the response
  * @param response_size the length of the response
  */
-extern void b_http_respond_to_request(b_socket_val *http_request_socket, char *response, uint response_size);
+extern void b_http_request_respond(b_socket_val *http_request_socket, char *response, uint response_size);
 /**
  * @param http_listener the socket that needs to be closed
  */

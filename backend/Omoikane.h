@@ -27,7 +27,7 @@ struct o_http_request {
  * @param request_buf a cstring containing a http request
  * @return a o_http_request struct containing the data from the request_buf
  */
-struct o_http_request o_http_request_parse(char *request_buf);
+extern struct o_http_request o_http_request_parse(char *request_buf);
 
 /**
  * @param header_count a uint16_t in which to store the amount of headers in the request
@@ -51,11 +51,14 @@ struct o_http_metadata o_http_metadata_parse(char *metadata);
 /**
  * @param request a o_http_request struct the will no longer be used
  */
-void o_http_request_free(struct o_http_request *request);
+extern void o_http_request_free(struct o_http_request *request);
 
 /// Create a http response
 
-char *o_http_response_create(struct o_http_metadata *metadata, struct o_http_header *headers, uint8_t header_count,
-                             char *body);
+extern char *o_http_response_create(uint16_t response_status_code, char *response_status_text, struct o_http_header *headers,
+                             uint8_t header_count, char *body);
+
+extern void
+o_http_header_append(struct o_http_header *headers, uint8_t *header_count, char *header_name, char *header_value);
 
 #endif //C_WEB_BACKEND_API_OMOIKANE_H

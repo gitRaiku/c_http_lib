@@ -37,7 +37,6 @@ struct o_http_request o_http_request_parse(char *request_buf) {
             if (*current_line == '\n') {
                 current_line++;
             } /// Get rid of newline
-            /// TODO change delimiter to include \n too
 
             if (*current_line == 0) {
                 reached_body = 1;
