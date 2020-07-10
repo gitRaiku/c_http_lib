@@ -58,7 +58,7 @@ extern void o_http_request_free(struct o_http_request *request);
 extern char *o_http_response_create(uint16_t response_status_code, char *response_status_text, struct o_http_header *headers,
                              uint8_t header_count, char *body);
 
-extern void
+extern struct o_http_header *
 o_http_header_append(struct o_http_header *headers, uint8_t *header_count, char *header_name, char *header_value);
 
 #endif //C_WEB_BACKEND_API_OMOIKANE_H

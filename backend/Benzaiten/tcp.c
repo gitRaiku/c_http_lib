@@ -65,8 +65,8 @@ extern void b_socket_read(b_socket_val *sock, char *buffer, const size_t read_si
     read(*sock, buffer, read_size);
 }
 
-extern void b_socket_send(b_socket_val *sock, const char *message, uint message_length, int flags) {
-    send(*sock, message, message_length, flags);
+extern void b_socket_send(b_socket_val *sock, const char *message, uint message_length) {
+    send(*sock, message, message_length, 0);
 }
 
 extern void b_socket_close(b_socket_val *sock) {

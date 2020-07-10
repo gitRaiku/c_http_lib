@@ -23,11 +23,10 @@ struct o_http_request o_http_request_parse(char *request_buf) {
     o_http_request_sizes(&header_count, &body_length, request_buf);
     reached_body = 0;
     passed_first_line = 0;
-
-    http_request.headers = malloc(sizeof(struct o_http_header) * header_count);
+    http_request.headers = (struct o_http_header *) calloc(header_count, sizeof(struct o_http_header));
     http_request.header_count = header_count;
     uint8_t current_header = 0;
-    http_request.body = malloc(sizeof(char) * body_length);
+    http_request.body = calloc(body_length, sizeof(char));
 
     while ((current_line = strsep(&request_buf, "\r")) != NULL) {
         if (passed_first_line == 0) {
@@ -114,11 +113,11 @@ struct o_http_metadata o_http_metadata_parse(char *metadata) {
     mlen = strlen(method);
     ulen = strlen(url);
     hlen = strlen(http_version);
-    meta.method = malloc(sizeof(char) * mlen);
+    meta.method = (char *) calloc(mlen, sizeof(char));
     memcpy(meta.method, method, mlen);
-    meta.url = malloc(sizeof(char) * ulen);
+    meta.url = (char *) calloc(mlen, sizeof(char));
     memcpy(meta.url, url, ulen);
-    meta.http_version = malloc(sizeof(char) * hlen);
+    meta.http_version = (char *) calloc(hlen, sizeof(char));
     memcpy(meta.http_version, http_version, hlen);
 
     return meta;

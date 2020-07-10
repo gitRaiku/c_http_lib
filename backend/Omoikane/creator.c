@@ -22,9 +22,9 @@ char *o_http_response_create(uint16_t response_status_code, char *response_statu
         response_size += headers_size;
         response_size += 2;
         response_size += strlen(body);
-        response = malloc(response_size);
+        response = (char *) calloc(response_size, sizeof(char));
     }
-    sprintf(response, "HTTP/1.1 %ui %s\r\n", response_status_code, response_status_text);
+    sprintf(response, "HTTP/1.1 %u %s\r\n", response_status_code, response_status_text);
     {
         uint8_t i;
         for (i = 0; i < header_count; ++i) {
@@ -36,16 +36,15 @@ char *o_http_response_create(uint16_t response_status_code, char *response_statu
     }
     strcat(response, "\r\n");
     strcat(response, body);
+    printf("%s", response);
     return response;
 }
 
-extern void
+extern struct o_http_header *
 o_http_header_append(struct o_http_header *headers, uint8_t *header_count, char *header_name, char *header_value) {
-    headers = realloc(headers, sizeof(headers)  + sizeof(struct o_http_header));
-    struct o_http_header _header = {
-            *header_name,
-            *header_value
-    };
-    headers[*header_count] = _header;
-    *header_count+=1;
+    headers = (struct o_http_header *) realloc(headers, sizeof(headers) + sizeof(struct o_http_header));
+    strcpy(headers[*header_count].header_name, header_name);
+    strcpy(headers[*header_count].header_value, header_value);
+    *header_count += 1;
+    return headers;
 }

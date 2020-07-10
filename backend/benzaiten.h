@@ -60,7 +60,7 @@ extern void b_socket_read(b_socket_val *sock, char *buffer, const size_t read_si
  * @param message_length the length of the message
  * @param flags the send flags
  */
-extern void b_socket_send(b_socket_val *sock, const char *message, uint message_length, int flags);
+extern void b_socket_send(b_socket_val *sock, const char *message, uint message_length);
 /**
  * @param sock the socket that will be closed
  */
